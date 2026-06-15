@@ -52,18 +52,18 @@ img { max-width: 100%; display: block; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--white);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  background: #17469E;
+  box-shadow: none;
 }
 
 .nav-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 24px;
-  height: 68px;
+  padding: 0 40px;
+  height: 72px;
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 40px;
 }
 
 .nav-logo {
@@ -84,34 +84,37 @@ img { max-width: 100%; display: block; }
 }
 
 .logo-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--blue);
+  font-size: 20px;
+  font-weight: 300;
+  font-family: 'Great Vibes', cursive;
+  color: var(--white);
   line-height: 1.2;
 }
 
 .logo-sub {
-  font-size: 10px;
-  color: #666;
-  line-height: 1.2;
+  font-size: 10;
+  font-weight: 300;
+  color: rgba(255,255,255,0.9);
+  line-height: 0.8;
+  letter-spacing: 0.3px;
 }
 
 .nav-links {
   display: flex;
   list-style: none;
-  gap: 28px;
+  gap: 48px;
   flex: 1;
   justify-content: center;
 }
 
 .nav-links a {
   font-size: 14px;
-  font-weight: 500;
-  color: var(--text-dark);
-  transition: color 0.2s;
+  font-weight: 200;
+  color: var(--white);
+  transition: opacity 0.2s;
 }
 
-.nav-links a:hover { color: var(--blue); }
+.nav-links a:hover { opacity: 0.75; }
 
 .nav-right {
   display: flex;
@@ -137,7 +140,7 @@ img { max-width: 100%; display: block; }
   border: none;
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-dark);
+  color: var(--white);
   cursor: pointer;
   font-family: inherit;
 }
@@ -155,7 +158,7 @@ img { max-width: 100%; display: block; }
 .hamburger span {
   width: 24px;
   height: 2px;
-  background: var(--text-dark);
+  background: var(--white);
   border-radius: 2px;
 }
 
@@ -186,7 +189,8 @@ img { max-width: 100%; display: block; }
 .hero {
   position: relative;
   background: url('/images/hero-bg.jpg') center/cover no-repeat;
-  min-height: 520px;
+  min-height: 600px;
+  min-width: 1100px;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -204,24 +208,26 @@ img { max-width: 100%; display: block; }
 .hero-content {
   position: relative;
   z-index: 2;
-  padding: 80px 60px;
-  max-width: 520px;
+  padding: 80px 73px;
+  max-width: 600px;
 }
-
+ 
 .hero-heading {
-  font-size: clamp(42px, 6vw, 72px);
-  font-weight: 800;
+  font-size: 128px;
+  font-weight: 700;
   color: var(--white);
-  line-height: 1.1;
+  line-height: 116px;
+  letter-spacing: 0px;
 }
 
 .hero-highlight { color: var(--yellow); }
-
+ 
 .hero-sub {
-  font-size: 18px;
+  font-size: 36px;
+  font-weight: 500;
   color: var(--white);
-  margin: 12px 0 32px;
-  font-weight: 400;
+  margin: 16px 0 40px;
+  line-height: 48px;
 }
 
 .btn-hero-donate {
@@ -229,40 +235,42 @@ img { max-width: 100%; display: block; }
   background: var(--yellow);
   color: var(--text-dark);
   font-weight: 800;
-  font-size: 16px;
-  padding: 14px 36px;
+  font-size: 32px;
+  padding: 14px 48px;
   border-radius: 30px;
+  text-align: center;
   transition: opacity 0.2s;
 }
-
+ 
 .btn-hero-donate:hover { opacity: 0.88; }
 
 /* Decorative circles */
 .hero-circle {
   position: absolute;
   border-radius: 50%;
-  z-index: 1;
 }
 
-.hero-circle.yellow  { width: 120px; height: 120px; background: var(--yellow); bottom: 80px; right: 340px; }
-.hero-circle.green   { width: 80px;  height: 80px;  background: var(--green);  bottom: 30px; right: 430px; }
-.hero-circle.red     { width: 60px;  height: 60px;  background: var(--red-circle); bottom: 30px; right: 270px; }
+.hero-circle.yellow { width: 380px; height: 380px; background: #FFB600; z-index: 2; bottom: -80px; left: 42%; }
+.hero-circle.green  { width: 140px; height: 140px; background: #2AA76F; z-index: 3; bottom: -20px; left: 38%; }
+.hero-circle.red    { width: 200px; height: 200px; background: #E05163; z-index: 2; bottom: -60px; right: 5%; }
 
 .hero-image-wrap {
   position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: 2;
-  height: 100%;
-  display: flex;
-  align-items: flex-end;
+  top: -415px;
+  left: -90px;
+  z-index: 3;
+  width: 1526px;
+  height: 1017px;
+  pointer-events: none;
 }
 
 .hero-img {
+  width: 100%;
   height: 100%;
   object-fit: cover;
-  max-width: 500px;
+  object-position: center top;
 }
+
 
 /* ============================================================
    ABOUT
