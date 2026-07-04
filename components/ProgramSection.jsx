@@ -1,8 +1,7 @@
 // ProgramSection.jsx
 "use client";
 
-// New design: each section has a single large circle image (343px) on one side
-// and a title + plain paragraph on the other — no rotated card, no collage, no accent bar.
+import { useEffect, useState } from "react";
 
 export default function ProgramSection({
   id,
@@ -12,76 +11,26 @@ export default function ProgramSection({
   circleImage,
   descFontSize = "19.85px",
 }) {
-  const imageBlock = (
-    <div
-      style={{
-        flexShrink: 0,
-        width: "344px",
-        height: "344px",
-        borderRadius: "50%",
-        overflow: "hidden",
-        background: "#D9D9D9",
-      }}
-    >
-      <img
-        src={circleImage}
-        alt={title}
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          display: "block",
-        }}
-        onError={(e) => {
-          e.currentTarget.style.display = "none";
-        }}
-      />
-    </div>
-  );
+  const [isMobile, setIsMobile] = useState(false);
 
-  const textBlock = (
-    <div
-      style={{
-        flex: 1,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        gap: "16px",
-        minWidth: 0,
-      }}
-    >
-      <h2
-        style={{
-          fontFamily: "Inter, sans-serif",
-          fontWeight: 700,
-          fontSize: "47.65px",
-          lineHeight: "76px",
-          color: "#000000",
-          margin: 0,
-        }}
-      >
-        {title}
-      </h2>
-      <p
-        style={{
-          fontFamily: "Inter, sans-serif",
-          fontWeight: 500,
-          fontSize: descFontSize,
-          lineHeight: "30px",
-          color: "#000000",
-          margin: 0,
-        }}
-      >
-        {description}
-      </p>
-    </div>
-  );
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Determine correct alignment direction dynamically
+  const getFlexDirection = () => {
+    if (isMobile) return "column";
+    return imageLeft ? "row" : "row-reverse";
+  };
 
   return (
     <section
       id={id}
       style={{
-        padding: "80px 120px",
+        padding: "clamp(40px, 6vw, 80px) clamp(16px, 5vw, 120px)",
         background: "#FFFFFF",
         overflow: "hidden",
       }}
@@ -89,15 +38,76 @@ export default function ProgramSection({
       <div
         style={{
           display: "flex",
-          flexDirection: imageLeft ? "row" : "row-reverse",
-          gap: "80px",
+          flexDirection: getFlexDirection(),
+          gap: "clamp(24px, 5vw, 80px)",
           alignItems: "center",
           maxWidth: "1200px",
           margin: "0 auto",
         }}
       >
-        {imageBlock}
-        {textBlock}
+        {/* Image Block */}
+        <div
+          style={{
+            flexShrink: 0,
+            width: "clamp(200px, 40vw, 344px)",
+            height: "clamp(200px, 40vw, 344px)",
+            borderRadius: "50%",
+            overflow: "hidden",
+            background: "#D9D9D9",
+          }}
+        >
+          <img
+            src={circleImage}
+            alt={title}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+            }}
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+            }}
+          />
+        </div>
+
+        {/* Text Block */}
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            gap: "16px",
+            minWidth: 0,
+            textAlign: isMobile ? "center" : "left",
+          }}
+        >
+          <h2
+            style={{
+              fontFamily: "Inter, sans-serif",
+              fontWeight: 700,
+              fontSize: "clamp(26px, 4vw, 47.65px)",
+              lineHeight: "1.2",
+              color: "#000000",
+              margin: 0,
+            }}
+          >
+            {title}
+          </h2>
+          <p
+            style={{
+              fontFamily: "Inter, sans-serif",
+              fontWeight: 500,
+              fontSize: `clamp(14px, 1.6vw, ${descFontSize})`,
+              lineHeight: "1.5",
+              color: "#000000",
+              margin: 0,
+            }}
+          >
+            {description}
+          </p>
+        </div>
       </div>
     </section>
   );
