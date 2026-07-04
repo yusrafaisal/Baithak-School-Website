@@ -1,4 +1,5 @@
 // DonationImpact.jsx
+
 "use client";
 
 export default function DonationImpact() {
@@ -7,7 +8,7 @@ export default function DonationImpact() {
             style={{
                 position: "relative",
                 background: "linear-gradient(180deg, #17489E 34.62%, #1B3664 100%)",
-                padding: "80px 64px 100px",
+                padding: "60px 20px 80px",
                 overflow: "hidden",
             }}
         >
@@ -15,53 +16,57 @@ export default function DonationImpact() {
                 style={{
                     display: "flex",
                     flexDirection: "row",
-                    gap: "80px",
+                    flexWrap: "wrap", // Fluid side-by-side or stacked orientation
+                    gap: "40px",
                     alignItems: "center",
+                    justifyContent: "center",
                     maxWidth: "1200px",
                     margin: "0 auto",
+                    width: "100%"
                 }}
             >
-                {/* Left — white card with donation form screenshot */}
+                {/* Left image holder - constraints are fluidified */}
                 <div
                     style={{
-                        flexShrink: 0,
-                        width: "451px",
-                        height: "668px",
+                        width: "100%",
+                        maxWidth: "400px",
+                        height: "auto",
+                        aspectRatio: "3/4",
                         background: "#FFFFFF",
-                        borderRadius: "40px",
-                        overflow: "hidden",
+                        borderRadius: "24px",
+                        padding: "16px",
+                        boxSizing: "border-box"
                     }}
                 >
                     <img
                         src="/images/donation-form-screenshot.png"
                         alt="Donation form"
                         style={{
-                            width: "385px",
-                            height: "633px",
+                            width: "100%",
+                            height: "100%",
                             objectFit: "cover",
                             display: "block",
-                            margin: "18px auto 0",
-                            borderRadius: "35px",
+                            borderRadius: "16px",
                         }}
                         onError={(e) => { e.currentTarget.style.display = "none"; }}
                     />
                 </div>
 
-                {/* Right — text block */}
+                {/* Right text box */}
                 <div
                     style={{
-                        flex: 1,
+                        flex: "1 1 450px", // Responsive snapping base
                         display: "flex",
                         flexDirection: "column",
-                        gap: "32px",
+                        gap: "24px",
                     }}
                 >
                     <h2
                         style={{
                             fontFamily: "Inter, sans-serif",
                             fontWeight: 700,
-                            fontSize: "64px",
-                            lineHeight: "77px",
+                            fontSize: "clamp(28px, 4.5vw, 56px)",
+                            lineHeight: "1.2",
                             color: "#E5EEFF",
                             margin: 0,
                         }}
@@ -73,33 +78,30 @@ export default function DonationImpact() {
                         style={{
                             fontFamily: "Inter, sans-serif",
                             fontWeight: 500,
-                            fontSize: "30px",
-                            lineHeight: "46px",
+                            fontSize: "clamp(16px, 2.5vw, 26px)",
+                            lineHeight: "1.5",
                             color: "#E5EEFF",
                             margin: 0,
                         }}
                     >
                         Baithak School brings quality education to Pakistan&apos;s most
-                        underserved and to communities one neighbourhood at a time and
-                        change lives.
+                        underserved communities one neighbourhood at a time and changes lives.
                     </p>
 
-                    {/* FIXED: Added the opening "a" tag here */}
                     <a
                         href="#contribute"
                         style={{
                             display: "inline-flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            padding: "15px 20px",
-                            width: "180px",
-                            height: "53px",
+                            padding: "12px 24px",
+                            width: "fit-content",
+                            minWidth: "160px",
                             background: "#FFB600",
-                            borderRadius: "15px",
+                            borderRadius: "12px",
                             fontFamily: "Nunito, sans-serif",
                             fontWeight: 700,
-                            fontSize: "24px",
-                            lineHeight: "22px",
+                            fontSize: "18px",
                             color: "#000000",
                             textDecoration: "none",
                             boxSizing: "border-box",
