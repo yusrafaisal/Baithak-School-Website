@@ -19,6 +19,7 @@ export default function Navbar() {
       }}
     >
       <div
+        className="nav-inner"
         style={{
           maxWidth: "1440px",
           margin: "0 auto",
@@ -32,6 +33,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: "0px", textDecoration: "none", flexShrink: 0 }}>
           <Image
+            className="nav-logo-icon"
             src="/images/landing_page_imgs/logo.png"
             alt="Baithak School Network logo"
             width={50}
@@ -39,11 +41,12 @@ export default function Navbar() {
             style={{ objectFit: "contain" }}
           />
           <Image
+            className="nav-logo-wordmark"
             src="/images/landing_page_imgs/baithak-school-logo2.png"
             alt="Baithak School Network - Society for Educational Welfare"
             width={220}
             height={50}
-            style={{ objectFit: "contain", width: "auto", height: "50px", filter: "brightness(0) invert(1)" }}
+            style={{ objectFit: "contain", width: "auto", filter: "brightness(0) invert(1)" }}
           />
         </Link>
 
@@ -140,8 +143,9 @@ export default function Navbar() {
         </div>
 
         {/* Right side: Donate + Language */}
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        <div className="nav-right" style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <Link
+            className="nav-donate-btn"
             href="/donate"
             style={{
               backgroundColor: "#FFBC25",
@@ -157,6 +161,7 @@ export default function Navbar() {
             Donate Now
           </Link>
           <button
+            className="lang-toggle-btn"
             style={{
               background: "none",
               border: "none",
@@ -165,6 +170,7 @@ export default function Navbar() {
               fontWeight: 600,
               cursor: "pointer",
               fontFamily: "'Nunito', sans-serif",
+              whiteSpace: "nowrap",
             }}
           >
             EN | اردو
@@ -182,6 +188,7 @@ export default function Navbar() {
               flexDirection: "column",
               gap: "5px",
               padding: "4px",
+              flexShrink: 0,
             }}
           >
             <span style={{ width: "22px", height: "2px", backgroundColor: "#fff", display: "block" }} />
@@ -227,6 +234,14 @@ export default function Navbar() {
         @media (max-width: 900px) {
           .desktop-nav { display: none !important; }
           .mobile-menu-btn { display: flex !important; }
+        }
+        @media (max-width: 480px) {
+          .nav-inner { padding: 0 16px !important; }
+          .nav-logo-icon { width: 34px !important; height: 34px !important; }
+          .nav-logo-wordmark { height: 32px !important; }
+          .nav-right { gap: 8px !important; }
+          .nav-donate-btn { font-size: 12px !important; padding: 8px 14px !important; }
+          .lang-toggle-btn { display: none !important; }
         }
       `}</style>
     </nav>

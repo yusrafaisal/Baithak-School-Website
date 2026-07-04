@@ -10,17 +10,17 @@ export default function Home() {
       <main style={{ fontFamily: "'Inter', sans-serif", overflowX: "hidden" }}>
 
         {/* ── HERO SECTION ── */}
-        <section style={{ position: "relative", width: "100%", minHeight: "calc(100vh - 72px)", overflow: "hidden" }}>
+        <section className="hero-section" style={{ position: "relative", width: "100%", minHeight: "calc(100vh - 72px)", overflow: "hidden" }}>
           <Image src="/images/landing_page_imgs/hero-bg.jpg" alt="Hero background" fill sizes="100vw" style={{ objectFit: "cover", objectPosition: "center" }} priority />
           <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.35)" }} />
 
           {/* Decorative circles */}
-          <div style={{ position: "absolute", width: "449px", height: "449px", bottom: "0", left: "42%", backgroundColor: "#FFB600", borderRadius: "50%", zIndex: 1 }} />
-          <div style={{ position: "absolute", width: "164px", height: "164px", bottom: "0", left: "37%", backgroundColor: "#2AA76F", borderRadius: "50%", zIndex: 2 }} />
-          <div style={{ position: "absolute", width: "242px", height: "242px", bottom: "0", right: "5%", backgroundColor: "#E05163", borderRadius: "50%", zIndex: 1 }} />
+          <div className="hero-circle c1" style={{ position: "absolute", width: "449px", height: "449px", bottom: "0", left: "42%", backgroundColor: "#FFB600", borderRadius: "50%", zIndex: 1 }} />
+          <div className="hero-circle c2" style={{ position: "absolute", width: "164px", height: "164px", bottom: "0", left: "37%", backgroundColor: "#2AA76F", borderRadius: "50%", zIndex: 2 }} />
+          <div className="hero-circle c3" style={{ position: "absolute", width: "242px", height: "242px", bottom: "0", right: "5%", backgroundColor: "#E05163", borderRadius: "50%", zIndex: 2 }} />
 
           {/* Hero girl */}
-          <div style={{
+          <div className="hero-girl" style={{
             position: "absolute", right: 130, bottom: 0,
             width: "250%", height: "130%",
             zIndex: 3,
@@ -29,7 +29,7 @@ export default function Home() {
           </div>
 
           {/* Hero text */}
-          <div style={{ position: "relative", zIndex: 4, padding: "clamp(60px, 10vw, 120px) 0 60px 73px", maxWidth: "600px" }}>
+          <div className="hero-text" style={{ position: "relative", zIndex: 4, padding: "clamp(60px, 10vw, 120px) 0 60px 73px", maxWidth: "600px" }}>
             <h1 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: "clamp(64px, 8.5vw, 128px)", lineHeight: "1.0", color: "#fff", textShadow: "0px 10px 4px rgba(0,0,0,0.25)", margin: 0 }}>
               Fulfilling<br /><span style={{ color: "#FFB600" }}>dreams</span>
             </h1>
@@ -48,11 +48,11 @@ export default function Home() {
         </section>
 
         {/* ── ABOUT BAITHAK ── */}
-        <section style={{ backgroundColor: "#fff", padding: "80px 64px 60px" }}>
-          <div style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", alignItems: "center", gap: "60px", flexWrap: "wrap" }}>
-            <div style={{ position: "relative", width: "420px", height: "460px", flexShrink: 0 }}>
-              <div style={{ position: "absolute", bottom: 40, right: 0, width: "350px", height: "350px", backgroundColor: "#FFB600", borderRadius: "50%" }} />
-              <div style={{ position: "absolute", bottom: 40, right: 0, width: "350px", height: "450px", overflow: "hidden", borderBottomLeftRadius: "175px", borderBottomRightRadius: "175px", zIndex: 1 }}>
+        <section className="about-section" style={{ backgroundColor: "#fff", padding: "80px 64px 60px" }}>
+          <div className="about-inner" style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", alignItems: "center", gap: "60px", flexWrap: "wrap" }}>
+            <div className="about-img-wrap" style={{ position: "relative", width: "420px", height: "460px", flexShrink: 0 }}>
+              <div className="about-circle-bg" style={{ position: "absolute", bottom: 40, right: 0, width: "350px", height: "350px", backgroundColor: "#FFB600", borderRadius: "50%" }} />
+              <div className="about-photo-mask" style={{ position: "absolute", bottom: 40, right: 0, width: "350px", height: "450px", overflow: "hidden", borderBottomLeftRadius: "175px", borderBottomRightRadius: "175px", zIndex: 1 }}>
                 <Image src="/images/landing_page_imgs/about1-boy.png" alt="About Baithak" fill sizes="350px" style={{ objectFit: "cover", objectPosition: "top" }} />
               </div>
             </div>
@@ -66,20 +66,20 @@ export default function Home() {
         </section>
 
         {/* ── OUR CREDIBILITY ── */}
-        <section style={{ backgroundColor: "#fff", padding: "0 64px 60px" }}>
+        <section className="credibility-section" style={{ backgroundColor: "#fff", padding: "0 64px 60px" }}>
           <div style={{ maxWidth: "1200px", margin: "0 auto", textAlign: "center" }}>
             <h3 style={{ fontWeight: 500, fontSize: "32px", color: "#000", marginBottom: "32px" }}>Our Credibility</h3>
-            <Image src="/images/landing_page_imgs/partnerr-logos.png" alt="Partner logos" width={1050} height={178} style={{ maxWidth: "70%", width: "auto", height: "auto", marginLeft: "200px" }} />
+            <Image className="credibility-logo" src="/images/landing_page_imgs/partnerr-logos.png" alt="Partner logos" width={1050} height={178} style={{ maxWidth: "70%", width: "auto", height: "auto", marginLeft: "200px" }} />
           </div>
         </section>
 
         {/* ── SUNO MERI KAHANI BLUE BAND ── */}
         <section style={{ position: "relative", backgroundColor: "#19499C", padding: "90px 0", overflow: "hidden" }}>
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "30px", backgroundColor: "#fff", clipPath: "ellipse(55% 100% at 50% 0%)" }} />
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "flex-end", gap: "20px", padding: "30px 0" }}>
-            <Image src="/images/landing_page_imgs/kahani.png" alt="کہانی" width={220} height={140} style={{ width: "auto", height: "120px" }} />
-            <Image src="/images/landing_page_imgs/meri5.png" alt="میری" width={180} height={120} style={{ width: "auto", height: "120px" }} />
-            <Image src="/images/landing_page_imgs/suno.png" alt="سنو" width={180} height={120} style={{ width: "auto", height: "120px" }} />
+          <div className="smk-words-row" style={{ display: "flex", justifyContent: "center", alignItems: "flex-end", flexWrap: "nowrap", gap: "16px", padding: "30px 20px", overflow: "hidden" }}>
+            <Image className="smk-word" src="/images/landing_page_imgs/kahani.png" alt="کہانی" width={189} height={120} style={{ width: "auto", height: "clamp(35px, 10vw, 120px)" }} />
+            <Image className="smk-word" src="/images/landing_page_imgs/meri5.png" alt="میری" width={180} height={120} style={{ width: "auto", height: "clamp(35px, 10vw, 120px)" }} />
+            <Image className="smk-word" src="/images/landing_page_imgs/suno.png" alt="سنو" width={180} height={120} style={{ width: "auto", height: "clamp(35px, 10vw, 120px)" }} />
           </div>
           <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "40px", backgroundColor: "#fff", clipPath: "ellipse(55% 100% at 50% 100%)" }} />
         </section>
@@ -93,16 +93,16 @@ export default function Home() {
             <p style={{ fontWeight: 500, fontSize: "clamp(18px, 2vw, 32px)", textAlign: "center", color: "#1E1E1E", maxWidth: "700px", margin: "0 auto 0px", lineHeight: "43px" }}>
               A campaign by Baithak, born from the belief that every child deserves to be heard.
             </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0px", justifyContent: "center" }}>
+            <div className="smk-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0px", justifyContent: "center" }}>
               {[
                 { img: "story-shohaib.png", name: "Shohaib's Story", color: "#E05163", pos: "center 70px" },
                 { img: "story-laibaa.png", name: "Laiba's Story", color: "#FFB600", pos: "center 40px" },
                 { img: "story-mohib.png", name: "Mohib's Story", color: "#2AA76F", pos: "center 90px" },
               ].map((s) => (
                 <div key={s.name} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0px" }}>
-                  <div style={{ position: "relative", width: "260px", height: "350px" }}>
-                    <div style={{ position: "absolute", bottom: 0, left: 0, width: "260px", height: "260px", borderRadius: "50%", backgroundColor: s.color }} />
-                    <div style={{ position: "absolute", bottom: 0, left: 0, width: "260px", height: "440px", overflow: "hidden", borderBottomLeftRadius: "130px", borderBottomRightRadius: "130px", zIndex: 1 }}>
+                  <div className="story-wrap" style={{ position: "relative", width: "260px", height: "350px" }}>
+                    <div className="story-circle" style={{ position: "absolute", bottom: 0, left: 0, width: "260px", height: "260px", borderRadius: "50%", backgroundColor: s.color }} />
+                    <div className="story-photo" style={{ position: "absolute", bottom: 0, left: 0, width: "260px", height: "440px", overflow: "hidden", borderBottomLeftRadius: "130px", borderBottomRightRadius: "130px", zIndex: 1 }}>
                       <Image src={`/images/landing_page_imgs/${s.img}`} alt={s.name} fill sizes="260px" style={{ objectFit: "cover", objectPosition: s.pos }} />
                     </div>
                   </div>
@@ -118,7 +118,7 @@ export default function Home() {
           <div style={{ maxWidth: "1200px", margin: "0 auto", borderTop: "4px solid #DFDEE2", paddingTop: "64px" }}>
             <h2 style={{ fontWeight: 700, fontSize: "clamp(36px, 4vw, 60px)", color: "#164397", textAlign: "center", marginBottom: "8px" }}>Your Donation In Action</h2>
             <p style={{ fontWeight: 500, fontSize: "clamp(18px, 2vw, 32px)", textAlign: "center", color: "#000", marginBottom: "48px" }}>How your donation transforms lives</p>
-            <div style={{ background: "linear-gradient(180deg, #17469E 0%, #081938 100%)", borderRadius: "41px", padding: "48px 48px 0 48px", position: "relative", overflow: "hidden", maxWidth: "1042px", margin: "0 auto 32px", minHeight: "450px", display: "flex", alignItems: "center", justifyContent: "flex-end", flexDirection: "column" }}>
+            <div className="donation-action-card" style={{ background: "linear-gradient(180deg, #17469E 0%, #081938 100%)", borderRadius: "41px", padding: "48px 48px 0 48px", position: "relative", overflow: "hidden", maxWidth: "1042px", margin: "0 auto 32px", minHeight: "450px", display: "flex", alignItems: "center", justifyContent: "flex-end", flexDirection: "column" }}>
               {/* Green filled circle - top right */}
               <div style={{ position: "absolute", top: "44px", right: "80px", width: "173px", height: "173px", backgroundColor: "#2AA76F", borderRadius: "50%" }} />
               {/* Yellow filled circle - left edge */}
@@ -151,12 +151,12 @@ export default function Home() {
         </section>
 
         {/* ── HOW BAITHAK IS BRIDGING THE GAP ── */}
-        <section style={{ backgroundColor: "#fff", padding: "0 64px 80px" }}>
+        <section className="bridge-section" style={{ backgroundColor: "#fff", padding: "0 64px 80px" }}>
           <div style={{ maxWidth: "1200px", margin: "0 auto", borderTop: "4px solid #D5DEDA", paddingTop: "64px" }}>
             <h2 style={{ fontWeight: 700, fontSize: "clamp(28px, 3vw, 48px)", color: "#11171A", marginBottom: "48px", textAlign: "center" }}>
               How Baithak is Bridging the <span style={{ fontWeight: 400 }}>Gap</span>
             </h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "32px" }}>
+            <div className="bridge-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "32px" }}>
               {[
                 { img: "program-schools.jpg", title: "Formal & Non-Formal Schools", desc: "Establishing formal schools and non-formal schools in slums and low-income areas to reduce access barriers." },
                 { img: "program-teachers.jpg", title: "Teacher Training & Development", desc: "Local teachers, empowered through structured training to deliver quality learning in every classroom." },
@@ -177,7 +177,7 @@ export default function Home() {
         </section>
 
         {/* ── YOUR SUPPORT DRIVES REAL CHANGE (Blue) ── */}
-        <section style={{ backgroundColor: "#17469E", padding: "80px 64px" }}>
+        <section className="support-section" style={{ backgroundColor: "#17469E", padding: "80px 64px" }}>
           <div style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center", gap: "80px", flexWrap: "wrap" }}>
             <div style={{ flexShrink: 0 }}>
               <Image src="/images/landing_page_imgs/donate_ss.png" alt="Donation form" width={408} height={672} style={{ borderRadius: "45px", boxShadow: "0px 4px 61.5px 3px rgba(0,0,0,0.25)", maxWidth: "100%", width: "auto", height: "auto" }} />
@@ -195,15 +195,15 @@ export default function Home() {
         </section>
 
         {/* ── YOUR SUPPORT DRIVES REAL CHANGE (White) ── */}
-        <section style={{ backgroundColor: "#fff", padding: "80px 64px" }}>
+        <section className="support-section" style={{ backgroundColor: "#fff", padding: "80px 64px" }}>
           <div style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center", gap: "60px", flexWrap: "wrap" }}>
-            <div style={{ position: "relative", width: "400px", height: "430px", flexShrink: 0 }}>
-              <div style={{ position: "absolute", bottom: 0, left: "15px", width: "370px", height: "370px", backgroundColor: "#FFB600", borderRadius: "50%" }} />
-              <div style={{ position: "absolute", bottom: 0, left: "15px", width: "370px", height: "430px", overflow: "hidden", borderBottomLeftRadius: "185px", borderBottomRightRadius: "185px", zIndex: 1 }}>
+            <div className="impact-img-wrap" style={{ position: "relative", width: "400px", height: "430px", flexShrink: 0 }}>
+              <div className="impact-circle-bg" style={{ position: "absolute", bottom: 0, left: "15px", width: "370px", height: "370px", backgroundColor: "#FFB600", borderRadius: "50%" }} />
+              <div className="impact-photo-mask" style={{ position: "absolute", bottom: 0, left: "15px", width: "370px", height: "430px", overflow: "hidden", borderBottomLeftRadius: "185px", borderBottomRightRadius: "185px", zIndex: 1 }}>
                 <Image src="/images/landing_page_imgs/impact-girl.png" alt="Impact" fill sizes="370px" style={{ objectFit: "cover", objectPosition: "top" }} />
               </div>
             </div>
-            <div style={{ width: "460px", flexShrink: 0 }}>
+            <div style={{ flex: "1 1 300px", minWidth: "260px" }}>
               <h2 style={{ fontFamily: "'Tahoma', sans-serif", fontWeight: 700, fontSize: "clamp(32px, 3.5vw, 55px)", color: "#082E76", lineHeight: "1.2", marginBottom: "20px" }}>
                 Your support <br />drives <span style={{ fontWeight: 400 }}>real change</span>
               </h2>
@@ -218,7 +218,7 @@ export default function Home() {
 
         </section>
         {/* ── TRANSFORM LIVES BANNER ── */}
-        <section style={{ position: "relative", width: "100%", minHeight: "700px", overflow: "hidden" }}>
+        <section className="transform-banner" style={{ position: "relative", width: "100%", minHeight: "700px", overflow: "hidden" }}>
 
           {/* Background image */}
           <Image src="/images/landing_page_imgs/transform1-bg.png" alt="Transform background" fill sizes="100vw" style={{ objectFit: "cover", objectPosition: "center top" }} priority />
@@ -236,16 +236,54 @@ export default function Home() {
             </h2>
           </div>
 
-          {/* Kids PNG - bottom aligned, covers lower half */}
-          <img
-            src="/images/landing_page_imgs/transform_kids.png"
-            alt="Kids walking"
-            style={{ position: "absolute", bottom: 235, left: 19, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", zIndex: 2 }}
-          />
-
         </section>
+
+        <style>{`
+          @media (max-width: 900px) {
+            .hero-text { padding: 40px 24px 60px !important; max-width: 100% !important; }
+            .hero-circle.c1 { width: 280px !important; height: 280px !important; }
+            .hero-circle.c2 { width: 120px !important; height: 120px !important; }
+            .hero-circle.c3 { width: 110px !important; height: 110px !important; right: -2% !important; bottom: 20px !important; }
+            .hero-girl { right: -8% !important; width: 118% !important; height: 100% !important; opacity: 0.9; }
+
+            .about-section, .credibility-section, .bridge-section, .support-section {
+              padding-left: 20px !important; padding-right: 20px !important;
+            }
+
+            .about-img-wrap { width: 220px !important; height: 240px !important; }
+            .about-circle-bg { width: 185px !important; height: 185px !important; bottom: 20px !important; }
+            .about-photo-mask {
+              width: 185px !important; height: 235px !important; bottom: 20px !important;
+              border-bottom-left-radius: 92px !important; border-bottom-right-radius: 92px !important;
+            }
+
+            .impact-img-wrap { width: 220px !important; height: 235px !important; }
+            .impact-circle-bg { width: 200px !important; height: 200px !important; left: 8px !important; }
+            .impact-photo-mask {
+              width: 200px !important; height: 235px !important; left: 8px !important;
+              border-bottom-left-radius: 100px !important; border-bottom-right-radius: 100px !important;
+            }
+
+            .story-wrap { width: 200px !important; height: 270px !important; }
+            .story-circle { width: 200px !important; height: 200px !important; }
+            .story-photo {
+              width: 200px !important; height: 340px !important;
+              border-bottom-left-radius: 100px !important; border-bottom-right-radius: 100px !important;
+            }
+
+            .credibility-logo { margin-left: 0 !important; max-width: 90% !important; }
+            .smk-grid { grid-template-columns: 1fr !important; gap: 56px !important; justify-items: center; }
+            .bridge-grid { grid-template-columns: 1fr !important; }
+            .donation-action-card { padding: 20px 16px 0 16px !important; min-height: 320px !important; }
+            .about-inner { justify-content: center !important; text-align: center; }
+            .transform-banner { min-height: 620px !important; }
+          }
+          @media (max-width: 480px) {
+            .hero-text h1 { font-size: 48px !important; }
+          }
+        `}</style>
       </main>
       <Footer />
     </>
   );
-} 
+}

@@ -3,13 +3,13 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer style={{ backgroundColor: "#082E76", padding: "60px 64px 32px", fontFamily: "'Inter', sans-serif" }}>
-      
+    <footer className="footer" style={{ backgroundColor: "#082E76", padding: "60px 64px 32px", fontFamily: "'Inter', sans-serif" }}>
+
       {/* Main footer content */}
-      <div style={{ maxWidth: "1400px", margin: "0 auto", display: "flex", gap: "40px", alignItems: "flex-start" }}>
-        
+      <div className="footer-main" style={{ maxWidth: "1400px", margin: "0 auto", display: "flex", gap: "40px", alignItems: "flex-start" }}>
+
         {/* Left - Logo + Bank Info */}
-        <div style={{ flex: "0 0 550px", minWidth: "280px" }}>
+        <div className="footer-brand" style={{ flex: "0 0 550px", minWidth: "280px" }}>
           {/* Logo */}
           <div style={{ display: "flex", alignItems: "center", gap: "0px", marginBottom: "10px" }}>
             <Image src="/images/landing_page_imgs/logo.png" alt="Baithak Logo" width={46} height={55} style={{ objectFit: "contain" }} />
@@ -17,12 +17,12 @@ export default function Footer() {
           </div>
 
           {/* Bank transfer heading */}
-          <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "24px", lineHeight: "31px", color: "#FFFFFF", marginBottom: "16px" }}>
+          <p className="footer-bank-heading" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "24px", lineHeight: "31px", color: "#FFFFFF", marginBottom: "16px" }}>
             Make a deposit or a direct<br /> bank transfer:
           </p>
 
           {/* Bank details */}
-          <p style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400, fontSize: "16px", lineHeight: "26px", color: "#EBEBEB", margin: 0 }}>
+          <p className="footer-bank-details" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400, fontSize: "16px", lineHeight: "26px", color: "#EBEBEB", margin: 0 }}>
             Meezan Bank Account Title: Society For Educational Welfare<br />
             Swift Code: MEZNPKKA<br />
             Zakaat Account: PK73 MEZN 0001030100019290<br />
@@ -31,69 +31,74 @@ export default function Footer() {
         </div>
 
         {/* Spacer */}
-        <div style={{ flex: 1 }} />
+        <div className="footer-spacer" style={{ flex: 1 }} />
 
-        {/* Quick Links */}
-        <div style={{ minWidth: "160px" }}>
-          <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: "16px", color: "#EBEBEB", textTransform: "uppercase", marginBottom: "24px" }}>
-            Quick Links
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
-            {[
-              { label: "Home", href: "/" },
-              { label: "About us", href: "/about" },
-              { label: "Donate Now", href: "/donate" },
-              { label: "How to Donate", href: "/how-to-donate" },
-              { label: "Contact us", href: "/contact" },
-            ].map((item) => (
-              <Link key={item.label} href={item.href} style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400, fontSize: "16px", color: "#EBEBEB", textDecoration: "underline" }}>
-                {item.label}
-              </Link>
-            ))}
-          </div>
-        </div>
+        {/* Link columns wrapper (so they can flex as a row on tablet, column on mobile) */}
+        <div className="footer-cols" style={{ display: "flex", gap: "40px" }}>
 
-        {/* Support */}
-        <div style={{ minWidth: "160px" }}>
-          <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: "16px", color: "#EBEBEB", textTransform: "uppercase", marginBottom: "24px" }}>
-            Support
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
-            {[
-              { label: "Help Centre", href: "/help" },
-              { label: "Contact Us", href: "/contact" },
-            ].map((item) => (
-              <Link key={item.label} href={item.href} style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400, fontSize: "16px", color: "#EBEBEB", textDecoration: "none" }}>
-                {item.label}
-              </Link>
-            ))}
+          {/* Quick Links */}
+          <div className="footer-col" style={{ minWidth: "160px" }}>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: "16px", color: "#EBEBEB", textTransform: "uppercase", marginBottom: "24px" }}>
+              Quick Links
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+              {[
+                { label: "Home", href: "/" },
+                { label: "About us", href: "/about" },
+                { label: "Donate Now", href: "/donate" },
+                { label: "How to Donate", href: "/how-to-donate" },
+                { label: "Contact us", href: "/contact" },
+              ].map((item) => (
+                <Link key={item.label} href={item.href} style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400, fontSize: "16px", color: "#EBEBEB", textDecoration: "underline" }}>
+                  {item.label}
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Socials */}
-        <div style={{ minWidth: "140px" }}>
-          <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: "16px", color: "#EBEBEB", textTransform: "uppercase", marginBottom: "24px" }}>
-            Socials
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
-            {[
-              { label: "Instagram", href: "https://instagram.com" },
-              { label: "Facebook", href: "https://facebook.com" },
-              { label: "YouTube", href: "https://youtube.com" },
-              { label: "LinkedIn", href: "https://linkedin.com" },
-              { label: "Twitter", href: "https://twitter.com" },
-            ].map((item) => (
-              <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400, fontSize: "16px", color: "#EBEBEB", textDecoration: "none" }}>
-                {item.label}
-              </a>
-            ))}
+          {/* Support */}
+          <div className="footer-col" style={{ minWidth: "160px" }}>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: "16px", color: "#EBEBEB", textTransform: "uppercase", marginBottom: "24px" }}>
+              Support
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+              {[
+                { label: "Help Centre", href: "/help" },
+                { label: "Contact Us", href: "/contact" },
+              ].map((item) => (
+                <Link key={item.label} href={item.href} style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400, fontSize: "16px", color: "#EBEBEB", textDecoration: "none" }}>
+                  {item.label}
+                </Link>
+              ))}
+            </div>
           </div>
+
+          {/* Socials */}
+          <div className="footer-col" style={{ minWidth: "140px" }}>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: "16px", color: "#EBEBEB", textTransform: "uppercase", marginBottom: "24px" }}>
+              Socials
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+              {[
+                { label: "Instagram", href: "https://instagram.com" },
+                { label: "Facebook", href: "https://facebook.com" },
+                { label: "YouTube", href: "https://youtube.com" },
+                { label: "LinkedIn", href: "https://linkedin.com" },
+                { label: "Twitter", href: "https://twitter.com" },
+              ].map((item) => (
+                <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400, fontSize: "16px", color: "#EBEBEB", textDecoration: "none" }}>
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+
         </div>
 
       </div>
 
       {/* Bottom bar - Privacy Policy, Terms, Legal */}
-      <div style={{ maxWidth: "1400px", margin: "48px auto 0", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "20px", display: "flex", justifyContent: "flex-end", gap: "48px" }}>
+      <div className="footer-bottom" style={{ maxWidth: "1400px", margin: "48px auto 0", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "20px", display: "flex", justifyContent: "flex-end", gap: "48px" }}>
         {[
           { label: "Privacy Policy", href: "/privacy" },
           { label: "Terms of Use", href: "/terms" },
@@ -104,6 +109,23 @@ export default function Footer() {
           </Link>
         ))}
       </div>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .footer-main { flex-direction: column !important; gap: 40px !important; }
+          .footer-brand { flex: none !important; width: 100% !important; min-width: 0 !important; }
+          .footer-spacer { display: none !important; }
+          .footer-cols { width: 100% !important; justify-content: space-between !important; }
+        }
+        @media (max-width: 560px) {
+          .footer { padding: 40px 24px 24px !important; }
+          .footer-bank-heading { font-size: 19px !important; line-height: 26px !important; }
+          .footer-bank-details { font-size: 14px !important; line-height: 22px !important; }
+          .footer-cols { flex-direction: column !important; gap: 32px !important; }
+          .footer-col { min-width: 0 !important; }
+          .footer-bottom { justify-content: flex-start !important; flex-wrap: wrap !important; gap: 20px !important; }
+        }
+      `}</style>
 
     </footer>
   );
