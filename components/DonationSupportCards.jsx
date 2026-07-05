@@ -1,4 +1,5 @@
 // DonationSupportCards.jsx
+
 "use client";
 
 const CARDS = [
@@ -24,17 +25,17 @@ export default function DonationSupportCards() {
     <section
       style={{
         background: "#F6F6F6",
-        padding: "80px 64px",
+        padding: "60px 20px",
       }}
     >
       <div
         style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          gap: "100px",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", // Auto layout alignment for 1, 2, or 3 cards in row based on device size
+          gap: "40px",
           maxWidth: "1087px",
           margin: "0 auto",
+          width: "100%"
         }}
       >
         {CARDS.map(({ label, bg, img }) => (
@@ -44,19 +45,19 @@ export default function DonationSupportCards() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: "24px",
+              gap: "16px",
             }}
           >
-            {/* Circle with coloured bg */}
+            {/* Aspect ratio circle containers */}
             <div
               style={{
-                width: "302px",
-                height: "296px",
+                width: "100%",
+                maxWidth: "260px",
+                aspectRatio: "1/1",
                 borderRadius: "50%",
                 background: bg,
                 overflow: "hidden",
                 position: "relative",
-                flexShrink: 0,
               }}
             >
               <img
@@ -67,7 +68,8 @@ export default function DonationSupportCards() {
                   bottom: 0,
                   left: "50%",
                   transform: "translateX(-50%)",
-                  width: "289px",
+                  width: "90%",
+                  height: "auto",
                   objectFit: "cover",
                   display: "block",
                 }}
@@ -80,8 +82,8 @@ export default function DonationSupportCards() {
               style={{
                 fontFamily: "Inter, sans-serif",
                 fontWeight: 600,
-                fontSize: "30px",
-                lineHeight: "77px",
+                fontSize: "20px",
+                lineHeight: "1.4",
                 color: "#282727",
                 textAlign: "center",
               }}

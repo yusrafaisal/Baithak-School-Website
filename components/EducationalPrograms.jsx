@@ -1,8 +1,7 @@
 // EducationalPrograms.jsx
+// Ourprograms.jsx
 "use client";
 
-// NOTE: In the new design this section is titled "Our Programs" (not "Educational Programs"),
-// has only 3 cards, and the third is "STAFF TRAINING PROTOCOL" (not Vocational Training).
 const EDU_CARDS = [
   {
     title: "FORMAL & INFORMAL EDUCATION",
@@ -26,7 +25,7 @@ export default function EducationalPrograms() {
     <section
       style={{
         background: "linear-gradient(180deg, #17469E 0%, #0F295A 100%)",
-        padding: "51px 64px 60px",
+        padding: "clamp(40px, 6vw, 60px) clamp(16px, 4vw, 64px)",
       }}
     >
       {/* Section heading — "Our Programs" per new spec */}
@@ -34,21 +33,24 @@ export default function EducationalPrograms() {
         style={{
           fontFamily: "Inter, sans-serif",
           fontWeight: 700,
-          fontSize: "48px",
-          lineHeight: "77px",
+          fontSize: "clamp(28px, 4vw, 48px)",
+          lineHeight: "1.2",
           color: "#FFFFFF",
           textAlign: "center",
           marginBottom: "40px",
+          marginTop: 0,
         }}
       >
         Our Programs
       </h2>
 
+      {/* Flex container that automatically drops down to a column grid style on smaller screens */}
       <div
         style={{
           display: "flex",
           flexDirection: "row",
-          gap: "18px",
+          flexWrap: "wrap",
+          gap: "24px",
           maxWidth: "1220px",
           margin: "0 auto",
           justifyContent: "center",
@@ -60,14 +62,16 @@ export default function EducationalPrograms() {
             style={{
               background: "#FFFFFF",
               borderRadius: "36px",
-              padding: "22px 20px 0px",
+              padding: "24px 20px 0px",
               boxSizing: "border-box",
               display: "flex",
               flexDirection: "column",
-              gap: "10px",
-              width: "287px",
-              flexShrink: 0,
-              height: "404px",
+              gap: "12px",
+              // Adapts layout sizes dynamically across desktop and mobile screens
+              width: "100%",
+              maxWidth: "340px",
+              minHeight: "420px",
+              maxHeight: "460px",
               overflow: "hidden",
             }}
           >
@@ -75,8 +79,8 @@ export default function EducationalPrograms() {
               style={{
                 fontFamily: "Inter, sans-serif",
                 fontWeight: 600,
-                fontSize: "20px",
-                lineHeight: "20px",
+                fontSize: "18px",
+                lineHeight: "1.3",
                 color: "#000000",
                 margin: 0,
               }}
@@ -88,7 +92,7 @@ export default function EducationalPrograms() {
                 fontFamily: "Poppins, sans-serif",
                 fontWeight: 400,
                 fontSize: "14px",
-                lineHeight: "16px",
+                lineHeight: "1.5",
                 color: "#333333",
                 margin: 0,
               }}
@@ -101,8 +105,10 @@ export default function EducationalPrograms() {
                 marginTop: "auto",
                 overflow: "hidden",
                 flex: 1,
-                minHeight: "160px",
+                minHeight: "180px",
                 borderRadius: "0 0 36px 36px",
+                marginRight: "-20px", // Cancels padding out for a clean full-width bottom layout
+                marginLeft: "-20px",
               }}
             >
               <img

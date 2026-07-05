@@ -33,6 +33,75 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+PROMPT 1 — MongoDB Atlas cluster + connection setup
+I have a Next.js 14 (App Router, TypeScript) project called Baithak-School-Website. I need to connect it to MongoDB Atlas (cloud). Do the following:
+
+Install the required package: npm install mongodb
+Create the file lib/mongodb.ts with a singleton MongoClient connection using the MONGODB_URI environment variable. Use this exact pattern so the connection is reused across hot reloads in dev:
+Export a clientPromise (Promise<MongoClient>)
+In development, cache it on the global object to survive HMR reloads
+In production, create a new client each time
+Add MONGODB_URI to .env.local (I will fill in the value): MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/baithak?retryWrites=true&w=majority
+Add .env.local to .gitignore if not already there.
+The database name is: baithak Collections will be: news_stories, donations Do not create any API routes yet. Just the connection file.
+Show more
+
+Orchestrated MongoDB integration setup with configuration scaffolding
+Orchestrated MongoDB integration setup with configuration scaffolding
+Here's the setup for MongoDB Atlas in your Next.js 14 project:
+
+1. Install the package
+bash
+npm install mongodb
+2. lib/mongodb.ts
+typescript
+import { MongoClient } from "mongodb";
+
+if (!process.env.MONGODB_URI) {
+  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
+}
+
+const uri = process.env.MONGODB_URI;
+const options = {};
+
+let client: MongoClient;
+let clientPromise: Promise<MongoClient>;
+
+if (process.env.NODE_ENV === "development") {
+  // In development mode, use a global variable so that the value
+  // is preserved across module reloads caused by HMR (Hot Module Replacement).
+  const globalWithMongo = global as typeof globalThis & {
+    _mongoClientPromise?: Promise<MongoClient>;
+  };
+
+  if (!globalWithMongo._mongoClientPromise) {
+    client = new MongoClient(uri, options);
+    globalWithMongo._mongoClientPromise = client.connect();
+  }
+  clientPromise = globalWithMongo._mongoClientPromise;
+} else {
+  // In production mode, it's best to not use a global variable.
+  client = new MongoClient(uri, options);
+  clientPromise = client.connect();
+}
+
+// Export a module-scoped MongoClient promise. By doing this in a
+// separate module, the client can be shared across functions.
+export default clientPromise;
+Note: I exported it as the default export (clientPromise), which is the standard convention for this pattern. If you'd rather import it as a named export (import { clientPromise } from "@/lib/mongodb"), let me know and I'll adjust it — just flagging so it matches however you plan to import it later.
+
+3. .env.local
+bash
+MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/baithak?retryWrites=true&w=majority
+Fill in <user>, <password>, and <cluster> from your Atlas dashboard.
+
+4. .gitignore
+Check if .env.local (or .env*.local) is already listed. If not, add:
+
+bash
+# local env files
+.env*.local
+
 # vercel
 .vercel
 

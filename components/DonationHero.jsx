@@ -1,4 +1,5 @@
 // DonationHero.jsx
+
 "use client";
 
 export default function DonationHero() {
@@ -7,9 +8,15 @@ export default function DonationHero() {
             style={{
                 position: "relative",
                 width: "100%",
-                height: "820px",
+                minHeight: "500px", // Scalable minimum height instead of locked 820px
+                height: "auto",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
                 overflow: "hidden",
                 marginTop: "72px",
+                padding: "80px 20px",
+                boxSizing: "border-box"
             }}
         >
             {/* Full-bleed background photo */}
@@ -22,7 +29,7 @@ export default function DonationHero() {
                 }}
             />
 
-            {/* Dark overlay so text is readable */}
+            {/* Dark overlay */}
             <div
                 style={{
                     position: "absolute",
@@ -32,40 +39,37 @@ export default function DonationHero() {
                 }}
             />
 
-            {/* Headline */}
+            {/* Fluid Headline */}
             <h1
                 style={{
-                    position: "absolute",
-                    width: "943px",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    top: "196px",
+                    position: "relative",
+                    maxWidth: "943px",
+                    width: "100%",
                     fontFamily: "Inter, sans-serif",
                     fontWeight: 600,
-                    fontSize: "50px",
-                    lineHeight: "90px",
+                    fontSize: "clamp(28px, 5vw, 50px)", // Responsive sizing
+                    lineHeight: "1.3",
                     textAlign: "center",
                     letterSpacing: "-1px",
                     color: "#FFFFFF",
                     margin: 0,
                     zIndex: 2,
-                    whiteSpace: "nowrap",
                 }}
             >
                 Your contribution can help{" "}
                 <span style={{ color: "#FFB600" }}>fulfill dreams</span>
             </h1>
 
-            {/* White wave cutoff at bottom */}
+            {/* Bottom angled decorative separator */}
             <div
                 style={{
                     position: "absolute",
                     bottom: -2,
-                    left: -6,
-                    width: "1523px",
-                    height: "160px",
+                    left: 0,
+                    width: "100%",
+                    height: "60px",
                     background: "linear-gradient(180deg, #17579E 0%, #0A2B4F 99.52%)",
-                    transform: "rotate(-179.78deg)",
+                    clipPath: "polygon(0 100%, 100% 100%, 100% 0)", // Modern CSS angle replacement to stop horizontal breaks
                     zIndex: 3,
                 }}
             />
