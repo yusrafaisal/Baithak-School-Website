@@ -2,10 +2,13 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [blogsOpen, setBlogsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+  const isActive = (href) => pathname === href;
 
   return (
     <nav
@@ -72,7 +75,7 @@ export default function Navbar() {
                 color: "#fff",
                 textDecoration: "none",
                 fontSize: "15px",
-                fontWeight: 600,
+                fontWeight: isActive(link.href) ? 800 : 600,
                 whiteSpace: "nowrap",
               }}
             >
@@ -89,7 +92,7 @@ export default function Navbar() {
                 border: "none",
                 color: "#fff",
                 fontSize: "15px",
-                fontWeight: 600,
+                fontWeight: (isActive("/blogs-stories") || isActive("/annual-report")) ? 800 : 600,
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
@@ -221,7 +224,7 @@ export default function Navbar() {
             <Link
               key={link.label}
               href={link.href}
-              style={{ color: "#fff", textDecoration: "none", fontSize: "15px", fontWeight: 600 }}
+              style={{ color: "#fff", textDecoration: "none", fontSize: "15px", fontWeight: isActive(link.href) ? 800 : 600 }}
               onClick={() => setMobileOpen(false)}
             >
               {link.label}

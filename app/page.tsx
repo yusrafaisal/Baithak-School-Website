@@ -95,11 +95,11 @@ export default function Home() {
             </p>
             <div className="smk-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0px", justifyContent: "center" }}>
               {[
-                { img: "story-shohaib.png", name: "Shohaib's Story", color: "#E05163", pos: "center 70px" },
-                { img: "story-laibaa.png", name: "Laiba's Story", color: "#FFB600", pos: "center 40px" },
-                { img: "story-mohib.png", name: "Mohib's Story", color: "#2AA76F", pos: "center 90px" },
+                { img: "story-shohaib.png", name: "Shohaib's Story", color: "#E05163", pos: "center 70px", href: "/stories-and-voices#more-stories" },
+                { img: "story-laibaa.png", name: "Laiba's Story", color: "#FFB600", pos: "center 40px", href: "/stories-and-voices#more-stories" },
+                { img: "story-mohib.png", name: "Mohib's Story", color: "#2AA76F", pos: "center 90px", href: "/stories-and-voices#story-detail" },
               ].map((s) => (
-                <div key={s.name} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0px" }}>
+                <Link key={s.name} href={s.href} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0px", textDecoration: "none" }}>
                   <div className="story-wrap" style={{ position: "relative", width: "260px", height: "350px" }}>
                     <div className="story-circle" style={{ position: "absolute", bottom: 0, left: 0, width: "260px", height: "260px", borderRadius: "50%", backgroundColor: s.color }} />
                     <div className="story-photo" style={{ position: "absolute", bottom: 0, left: 0, width: "260px", height: "440px", overflow: "hidden", borderBottomLeftRadius: "130px", borderBottomRightRadius: "130px", zIndex: 1 }}>
@@ -107,7 +107,7 @@ export default function Home() {
                     </div>
                   </div>
                   <p style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: "clamp(18px, 1.5vw, 26px)", color: "#282727", textAlign: "center" }}>{s.name}</p>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
