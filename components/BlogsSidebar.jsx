@@ -463,6 +463,11 @@ const categories = ["All", "Blogs", "Events", "Success Stories", "Baithak in Med
 
 /* ── Blog Card ─────────────────────────────────── */
 function BlogCard({ post }) {
+  // Read More always stays on this site — it opens the post's own page
+  // at /blogs-stories/<id>, using the post's numeric `id` field (the
+  // same id the admin dashboard already uses everywhere else).
+  const readMoreHref = `/blogs-stories/${post.id}`;
+
   return (
     <article className="bc">
       {/* Figma: image 239×174–176px */}
@@ -488,7 +493,7 @@ function BlogCard({ post }) {
         <p className="bc__excerpt">{post.excerpt}</p>
 
         {/* Read More button — Figma: 239×38px, border 2px solid #2AA76F, border-radius 4px */}
-        <a href={post.href} target="_blank" rel="noopener noreferrer" className="bc__btn">
+        <a href={readMoreHref} className="bc__btn">
           Read More
         </a>
       </div>
@@ -513,7 +518,7 @@ function BlogCardSkeleton() {
 }
 
 /* ── Main Component ────────────────────────────── */
-export default function BlogsSidebar({ category }) {
+export default function BlogsSidebar({ category = null}) {
   const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

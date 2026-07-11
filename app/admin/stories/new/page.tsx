@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import ImageUploadField from "@/components/admin/ImageUploadField";
+import ContentBlocksEditor, { ContentBlock } from "@/components/admin/ContentBlocksEditor";
 
 const CATEGORIES = ["Blogs", "Events", "Success Stories", "Baithak in Media", "Videos"];
 
@@ -14,6 +16,7 @@ export default function NewStoryPage() {
     const [img, setImg] = useState("");
     const [excerpt, setExcerpt] = useState("");
     const [href, setHref] = useState("");
+    const [contentBlocks, setContentBlocks] = useState<ContentBlock[]>([]);
     const [isPublished, setIsPublished] = useState(false);
 
     const [errors, setErrors] = useState<Record<string, string>>({});
@@ -51,6 +54,7 @@ export default function NewStoryPage() {
                     img: img.trim(),
                     excerpt: excerpt.trim(),
                     href: href.trim(),
+                    content: JSON.stringify(contentBlocks),
                     isPublished,
                 }),
             });
@@ -127,14 +131,8 @@ export default function NewStoryPage() {
                         />
                     </FormField>
 
-                    <FormField label="Image Path" error={errors.img}>
-                        <input
-                            type="text"
-                            value={img}
-                            onChange={(e) => setImg(e.target.value)}
-                            placeholder="/images/example.jpg"
-                            style={inputStyle}
-                        />
+                    <FormField label="Cover Photo" error={errors.img}>
+                        <ImageUploadField value={img} onChange={setImg} label="cover photo" />
                     </FormField>
 
                     <FormField label="External Link (optional)" error={errors.href}>
@@ -155,6 +153,10 @@ export default function NewStoryPage() {
                             rows={4}
                             style={{ ...inputStyle, height: "auto", padding: "10px 12px", resize: "vertical" }}
                         />
+                    </FormField>
+
+                    <FormField label="Full Story (optional — shown on the story's own page)">
+                        <ContentBlocksEditor blocks={contentBlocks} onChange={setContentBlocks} />
                     </FormField>
 
                     {/* Publish toggle */}

@@ -10,14 +10,17 @@ interface NewsStory {
   title: string;
   date: string;
   excerpt: string;
-  href: string;
-  isPublished: boolean;
-  isArchived: boolean;
-  createdAt: string;
-  updatedAt: string;
+  // Retired: no longer used for linking. "Read More" always stays on
+  // this site now, at /blogs/[_id]. Kept here only so old seeded rows
+  // don't break existing types; safe to delete once cleaned up.
+  href?: string;
+  // Rich HTML content for the on-site article page (paragraphs,
+  // headings, images — from the admin dashboard's content editor).
+  // Falls back to showing `excerpt` if not set.
+  content?: string;
 }
 
-const allPosts = [
+const allPosts: NewsStory[] = [
   {
     id: 1,
     category: "Blogs",
@@ -126,24 +129,13 @@ async function seedNewsStories() {
       console.log('Dropped existing "news_stories" collection.');
     }
 
-    // Map through the predefined posts and attach admin-workflow fields
-    // to every document right before insertion
-    const now = new Date().toISOString();
-    const postsWithAdminFields: NewsStory[] = allPosts.map((post) => ({
-      ...post,
-      isPublished: true,
-      isArchived: false,
-      createdAt: now,
-      updatedAt: now,
-    }));
+    await collection.insertMany(allPosts);
 
-    await collection.insertMany(postsWithAdminFields);
-
-    postsWithAdminFields.forEach((post) => {
+    allPosts.forEach((post) => {
       console.log(`Inserted: "${post.title}"`);
     });
 
-    console.log(`Successfully inserted ${postsWithAdminFields.length} news stories.`);
+    console.log(`Successfully inserted ${allPosts.length} news stories.`);
   } catch (error) {
     console.error("Error seeding news stories:", error);
     process.exitCode = 1;

@@ -2,7 +2,7 @@ export default function OurStoryHero() {
   return (
     <section className="os-hero">
       <img
-        src="/images/our-story-hero.jpg"
+        src="/images/our-story-hero.png"
         alt="Baithak School children"
         className="os-hero__img"
       />

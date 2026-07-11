@@ -2,12 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
 
 interface RouteParams {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
     try {
-        const numericId = Number(params.id);
+        const { id } = await params;
+        const numericId = Number(id);
 
         if (isNaN(numericId)) {
             return NextResponse.json({ error: "Invalid story id" }, { status: 400 });
@@ -38,7 +39,8 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
     try {
-        const numericId = Number(params.id);
+        const { id } = await params;
+        const numericId = Number(id);
 
         if (isNaN(numericId)) {
             return NextResponse.json({ error: "Invalid story id" }, { status: 400 });
@@ -47,7 +49,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
         const body = await request.json();
 
         // Never allow the client to overwrite id, _id, or createdAt via PATCH
-        const { id, _id, createdAt, ...updateFields } = body;
+        const { id: bodyId, _id, createdAt, ...updateFields } = body;
 
         if (Object.keys(updateFields).length === 0) {
             return NextResponse.json(
@@ -87,7 +89,8 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
     try {
-        const numericId = Number(params.id);
+        const { id } = await params;
+        const numericId = Number(id);
 
         if (isNaN(numericId)) {
             return NextResponse.json({ error: "Invalid story id" }, { status: 400 });

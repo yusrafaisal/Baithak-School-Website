@@ -2,12 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
 
 interface RouteParams {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }
 
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
+export async function PATCH(
+    request: NextRequest,
+    { params }: RouteParams
+) {
     try {
-        const numericId = Number(params.id);
+        const { id } = await params;
+        const numericId = Number(id);
 
         if (isNaN(numericId)) {
             return NextResponse.json({ error: "Invalid story id" }, { status: 400 });
@@ -31,7 +35,10 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
                     updatedAt: new Date().toISOString(),
                 },
             },
-            { returnDocument: "after", projection: { _id: 0 } }
+            {
+                returnDocument: "after",
+                projection: { _id: 0 },
+            }
         );
 
         return NextResponse.json(result);

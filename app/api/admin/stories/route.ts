@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
-        const { category, img, title, date, excerpt, href, isPublished } = body;
+        const { category, img, title, date, excerpt, href, content, isPublished } = body;
 
         // Basic validation
         if (!category || typeof category !== "string") {
@@ -99,6 +99,7 @@ export async function POST(request: NextRequest) {
             date,
             excerpt: typeof excerpt === "string" ? excerpt : "",
             href: typeof href === "string" ? href : "",
+            content: typeof content === "string" ? content : "",
             isPublished: typeof isPublished === "boolean" ? isPublished : false,
             isArchived: false,
             createdAt: now,
