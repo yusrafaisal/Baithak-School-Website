@@ -11,9 +11,13 @@ interface NewsStory {
   date: string;
   excerpt: string;
   href: string;
+  isPublished: boolean;
+  isArchived: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
-const allPosts: NewsStory[] = [
+const allPosts = [
   {
     id: 1,
     category: "Blogs",
@@ -122,13 +126,24 @@ async function seedNewsStories() {
       console.log('Dropped existing "news_stories" collection.');
     }
 
-    await collection.insertMany(allPosts);
+    // Map through the predefined posts and attach admin-workflow fields
+    // to every document right before insertion
+    const now = new Date().toISOString();
+    const postsWithAdminFields: NewsStory[] = allPosts.map((post) => ({
+      ...post,
+      isPublished: true,
+      isArchived: false,
+      createdAt: now,
+      updatedAt: now,
+    }));
 
-    allPosts.forEach((post) => {
+    await collection.insertMany(postsWithAdminFields);
+
+    postsWithAdminFields.forEach((post) => {
       console.log(`Inserted: "${post.title}"`);
     });
 
-    console.log(`Successfully inserted ${allPosts.length} news stories.`);
+    console.log(`Successfully inserted ${postsWithAdminFields.length} news stories.`);
   } catch (error) {
     console.error("Error seeding news stories:", error);
     process.exitCode = 1;
