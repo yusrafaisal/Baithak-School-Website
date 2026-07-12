@@ -3,12 +3,28 @@
 import { useState, useEffect } from "react";
 
 interface StoryStats {
-    total: number;
-    published: number;
-    unpublished: number;
+    totalStories: number;
+    publishedStories: number;
+    unpublishedStories: number;
+    totalReports: number;
 }
 
-function StatCard({ label, value }: { label: string; value: number | null }) {
+const initialStats: StoryStats = {
+    totalStories: 0,
+    publishedStories: 0,
+    unpublishedStories: 0,
+    totalReports: 0,
+};
+
+function StatCard({
+    label,
+    value,
+    accentBorder,
+}: {
+    label: string;
+    value: number;
+    accentBorder?: string;
+}) {
     return (
         <div
             style={{
@@ -16,6 +32,7 @@ function StatCard({ label, value }: { label: string; value: number | null }) {
                 borderRadius: "10px",
                 padding: "24px",
                 boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+                ...(accentBorder ? { borderLeft: accentBorder } : {}),
             }}
         >
             <p
@@ -40,14 +57,30 @@ function StatCard({ label, value }: { label: string; value: number | null }) {
                     margin: 0,
                 }}
             >
-                {value === null ? "—" : value}
+                {value}
             </p>
         </div>
     );
 }
 
+function SectionSubheading({ children }: { children: React.ReactNode }) {
+    return (
+        <h2
+            style={{
+                fontFamily: "Poppins, sans-serif",
+                fontSize: "17px",
+                fontWeight: 600,
+                color: "#082E76",
+                margin: "0 0 16px",
+            }}
+        >
+            {children}
+        </h2>
+    );
+}
+
 export default function AdminDashboardPage() {
-    const [stats, setStats] = useState<StoryStats | null>(null);
+    const [stats, setStats] = useState<StoryStats>(initialStats);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
@@ -64,7 +97,12 @@ export default function AdminDashboardPage() {
                 }
 
                 const data = await res.json();
-                setStats(data);
+                setStats({
+                    totalStories: data.totalStories || 0,
+                    publishedStories: data.publishedStories || 0,
+                    unpublishedStories: data.unpublishedStories || 0,
+                    totalReports: data.totalReports || 0,
+                });
             } catch (err) {
                 setError(true);
             } finally {
@@ -95,27 +133,57 @@ export default function AdminDashboardPage() {
                     Unable to load story stats. Please try again later.
                 </p>
             ) : (
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(3, 1fr)",
-                        gap: "20px",
-                    }}
-                >
-                    <StatCard label="Total Stories" value={loading ? null : stats?.total ?? 0} />
-                    <StatCard label="Published" value={loading ? null : stats?.published ?? 0} />
-                    <StatCard label="Unpublished" value={loading ? null : stats?.unpublished ?? 0} />
-                </div>
+                <>
+                    {/* ── Section 1: News & Stories ── */}
+                    <section style={{ marginBottom: "40px" }}>
+                        <SectionSubheading>News & Stories</SectionSubheading>
+
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "repeat(3, 1fr)",
+                                gap: "20px",
+                            }}
+                            className="dashboard-stories-grid"
+                        >
+                            <StatCard label="Total Stories" value={loading ? 0 : stats.totalStories || 0} />
+                            <StatCard label="Published" value={loading ? 0 : stats.publishedStories || 0} />
+                            <StatCard label="Unpublished" value={loading ? 0 : stats.unpublishedStories || 0} />
+                        </div>
+                    </section>
+
+                    {/* ── Section 2: Annual Reports ── */}
+                    <section>
+                        <SectionSubheading>Annual Reports</SectionSubheading>
+
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "repeat(3, 1fr)",
+                                gap: "20px",
+                            }}
+                            className="dashboard-reports-grid"
+                        >
+                            <StatCard
+                                label="Annual Reports"
+                                value={loading ? 0 : stats.totalReports || 0}
+                                accentBorder="4px solid #FFB600"
+                            />
+                        </div>
+                    </section>
+                </>
             )}
 
             <style>{`
         @media (max-width: 900px) {
-          div[style*="grid-template-columns: repeat(3, 1fr)"] {
+          .dashboard-stories-grid,
+          .dashboard-reports-grid {
             grid-template-columns: repeat(2, 1fr) !important;
           }
         }
         @media (max-width: 500px) {
-          div[style*="grid-template-columns: repeat(3, 1fr)"] {
+          .dashboard-stories-grid,
+          .dashboard-reports-grid {
             grid-template-columns: 1fr !important;
           }
         }
