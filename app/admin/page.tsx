@@ -6,7 +6,6 @@ interface StoryStats {
     total: number;
     published: number;
     unpublished: number;
-    archived: number;
 }
 
 function StatCard({ label, value }: { label: string; value: number | null }) {
@@ -99,25 +98,24 @@ export default function AdminDashboardPage() {
                 <div
                     style={{
                         display: "grid",
-                        gridTemplateColumns: "repeat(4, 1fr)",
+                        gridTemplateColumns: "repeat(3, 1fr)",
                         gap: "20px",
                     }}
                 >
                     <StatCard label="Total Stories" value={loading ? null : stats?.total ?? 0} />
                     <StatCard label="Published" value={loading ? null : stats?.published ?? 0} />
                     <StatCard label="Unpublished" value={loading ? null : stats?.unpublished ?? 0} />
-                    <StatCard label="Archived" value={loading ? null : stats?.archived ?? 0} />
                 </div>
             )}
 
             <style>{`
         @media (max-width: 900px) {
-          div[style*="grid-template-columns: repeat(4, 1fr)"] {
+          div[style*="grid-template-columns: repeat(3, 1fr)"] {
             grid-template-columns: repeat(2, 1fr) !important;
           }
         }
         @media (max-width: 500px) {
-          div[style*="grid-template-columns: repeat(4, 1fr)"] {
+          div[style*="grid-template-columns: repeat(3, 1fr)"] {
             grid-template-columns: 1fr !important;
           }
         }

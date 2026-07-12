@@ -7,15 +7,13 @@ export async function GET() {
         const db = client.db("baithak");
         const collection = db.collection("news_stories");
 
-        const [total, published, archived] = await Promise.all([
+        const [total, published, unpublished] = await Promise.all([
             collection.countDocuments({}),
-            collection.countDocuments({ isPublished: true, isArchived: false }),
-            collection.countDocuments({ isArchived: true }),
+            collection.countDocuments({ isPublished: true }),
+            collection.countDocuments({ isPublished: false }),
         ]);
 
-        const unpublished = total - published - archived;
-
-        return NextResponse.json({ total, published, unpublished, archived });
+        return NextResponse.json({ total, published, unpublished });
     } catch (error) {
         console.error("Error fetching story stats:", error);
         return NextResponse.json(

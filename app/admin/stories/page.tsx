@@ -12,18 +12,16 @@ interface Story {
     excerpt: string;
     href: string;
     isPublished: boolean;
-    isArchived: boolean;
     createdAt: string;
     updatedAt: string;
 }
 
-type StatusFilter = "all" | "published" | "unpublished" | "archived";
+type StatusFilter = "all" | "published" | "unpublished";
 
 const STATUS_TABS: { label: string; value: StatusFilter }[] = [
     { label: "All", value: "all" },
     { label: "Published", value: "published" },
     { label: "Unpublished", value: "unpublished" },
-    { label: "Archived", value: "archived" },
 ];
 
 export default function ManageStoriesPage() {
@@ -36,6 +34,15 @@ export default function ManageStoriesPage() {
 
     // Track in-flight per-card actions so buttons can disable individually
     const [pendingIds, setPendingIds] = useState<Set<number>>(new Set());
+
+    // Simple toast state — no external library
+    const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+
+    useEffect(() => {
+        if (!toast) return;
+        const timeoutId = setTimeout(() => setToast(null), 3000);
+        return () => clearTimeout(timeoutId);
+    }, [toast]);
 
     const fetchStories = useCallback(async () => {
         try {
@@ -113,7 +120,7 @@ export default function ManageStoriesPage() {
         } catch (err) {
             // Roll back on failure
             setStories(previousStories);
-            alert("Failed to update publish status. Please try again.");
+            setToast({ message: "Failed to update publish status.", type: "error" });
         } finally {
             setPending(story.id, false);
         }
@@ -121,14 +128,10 @@ export default function ManageStoriesPage() {
 
     async function handleDelete(story: Story) {
         const confirmed = confirm(
-            `Archive "${story.title}"? This will hide it from the public site.`
+            "Are you sure you want to permanently delete this story from the database?"
         );
         if (!confirmed) return;
 
-        const previousStories = stories;
-
-        // Optimistic removal from the visible list (soft delete = archived)
-        setStories((prev) => prev.filter((s) => s.id !== story.id));
         setPending(story.id, true);
 
         try {
@@ -137,12 +140,14 @@ export default function ManageStoriesPage() {
             });
 
             if (!res.ok) {
-                throw new Error("Failed to archive story");
+                throw new Error("Failed to delete story");
             }
+
+            // Optimistically remove the row now that deletion is confirmed successful
+            setStories((prev) => prev.filter((s) => s.id !== story.id));
+            setToast({ message: "Story permanently deleted.", type: "success" });
         } catch (err) {
-            // Roll back on failure
-            setStories(previousStories);
-            alert("Failed to archive story. Please try again.");
+            setToast({ message: "Failed to delete story. Please try again.", type: "error" });
         } finally {
             setPending(story.id, false);
         }
@@ -381,11 +386,6 @@ export default function ManageStoriesPage() {
                                             month: "short",
                                             day: "numeric",
                                         })}
-                                        {story.isArchived && (
-                                            <span style={{ color: "#D0342C", marginLeft: "8px" }}>
-                                                (Archived)
-                                            </span>
-                                        )}
                                     </p>
 
                                     <div
@@ -398,18 +398,18 @@ export default function ManageStoriesPage() {
                                             borderTop: "1px solid #F0F0F0",
                                         }}
                                     >
-                                        {/* Publish toggle switch */}
+                                        {/* Publish toggle switch — untouched, fully functional */}
                                         <label
                                             style={{
                                                 display: "inline-flex",
                                                 alignItems: "center",
                                                 gap: "8px",
-                                                cursor: story.isArchived ? "not-allowed" : "pointer",
+                                                cursor: "pointer",
                                             }}
                                         >
                                             <span
                                                 onClick={() => {
-                                                    if (!isPending && !story.isArchived) {
+                                                    if (!isPending) {
                                                         handleTogglePublish(story);
                                                     }
                                                 }}
@@ -463,15 +463,14 @@ export default function ManageStoriesPage() {
                                             </Link>
                                             <button
                                                 onClick={() => handleDelete(story)}
-                                                disabled={isPending || story.isArchived}
+                                                disabled={isPending}
                                                 style={{
                                                     background: "none",
                                                     border: "none",
                                                     fontFamily: "Poppins, sans-serif",
                                                     fontSize: "13px",
                                                     color: "#D0342C",
-                                                    cursor:
-                                                        isPending || story.isArchived ? "not-allowed" : "pointer",
+                                                    cursor: isPending ? "not-allowed" : "pointer",
                                                     padding: 0,
                                                 }}
                                             >
@@ -483,6 +482,28 @@ export default function ManageStoriesPage() {
                             </div>
                         );
                     })}
+                </div>
+            )}
+
+            {/* ── Toast feedback ── */}
+            {toast && (
+                <div
+                    style={{
+                        position: "fixed",
+                        bottom: "24px",
+                        right: "24px",
+                        backgroundColor: toast.type === "success" ? "#082E76" : "#D0342C",
+                        color: "#ffffff",
+                        padding: "14px 20px",
+                        borderRadius: "8px",
+                        fontFamily: "Poppins, sans-serif",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        boxShadow: "0 4px 14px rgba(0,0,0,0.2)",
+                        zIndex: 1000,
+                    }}
+                >
+                    {toast.message}
                 </div>
             )}
         </div>
