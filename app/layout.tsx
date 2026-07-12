@@ -1,4 +1,5 @@
 import "./globals.css";
+import type { ReactNode } from "react";
 
 export const metadata = {
   title: "Baithak School Network",
@@ -6,7 +7,11 @@ export const metadata = {
     "Fulfilling dreams, one child at a time. Baithak School Network is a nonprofit providing quality education to underserved communities across Pakistan.",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
     <html lang="en">
       <head>
