@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
-import fs from "fs";
-import path from "path";
 
-// File system access requires the Node.js runtime, not Edge
+// Mongo driver needs the Node.js runtime, not Edge
 export const runtime = "nodejs";
 
 interface Report {
@@ -36,11 +34,8 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
     try {
-        const formData = await request.formData();
-
-        const yearRaw = formData.get("year");
-        const file = formData.get("file");
-        const overwriteRaw = formData.get("overwrite");
+        const body = await request.json();
+        const { year: yearRaw, fileName, pdfUrl, overwrite: overwriteRaw } = body;
 
         // Validate year
         const year = Number(yearRaw);
@@ -51,23 +46,22 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Validate file
-        if (!file || !(file instanceof File)) {
+        // Validate the Cloudinary URL and file name coming from the client
+        if (!fileName || typeof fileName !== "string") {
             return NextResponse.json(
-                { error: "A file is required" },
+                { error: "A file name is required" },
                 { status: 400 }
             );
         }
 
-        if (file.type !== "application/pdf") {
+        if (!pdfUrl || typeof pdfUrl !== "string") {
             return NextResponse.json(
-                { error: "File must be a PDF" },
+                { error: "A pdfUrl is required" },
                 { status: 400 }
             );
         }
 
-        // Normalize the overwrite flag (arrives as a string from FormData)
-        const overwrite = overwriteRaw === "true" || overwriteRaw === "1";
+        const overwrite = overwriteRaw === true;
 
         const client = await clientPromise;
         const db = client.db("baithak");
@@ -83,26 +77,15 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Convert file to buffer
-        const arrayBuffer = await file.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
-
-        // Ensure the upload directory exists
-        const uploadDir = path.join(process.cwd(), "public", "uploads", "reports");
-        fs.mkdirSync(uploadDir, { recursive: true });
-
-        // Write the file to disk
-        const filePath = path.join(uploadDir, `${year}.pdf`);
-        fs.writeFileSync(filePath, buffer);
-
-        // Upsert metadata into MongoDB
+        // Upsert metadata into MongoDB — the PDF itself already lives on
+        // Cloudinary, so there's no local file system write here anymore.
         await collection.updateOne(
             { year },
             {
                 $set: {
                     year,
-                    fileName: file.name,
-                    pdfUrl: `/uploads/reports/${year}.pdf`,
+                    fileName,
+                    pdfUrl,
                     uploadedAt: new Date().toISOString(),
                 },
             },

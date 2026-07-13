@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
-import fs from "fs";
-import path from "path";
 
-// File system access requires the Node.js runtime, not Edge
 export const runtime = "nodejs";
 
 interface Report {
@@ -38,23 +35,8 @@ export async function DELETE(
             );
         }
 
-        // Attempt to remove the physical file, but don't let a missing/locked
-        // file block the metadata cleanup below.
-        const filePath = path.join(
-            process.cwd(),
-            "public",
-            "uploads",
-            "reports",
-            `${targetYear}.pdf`
-        );
-
-        try {
-            await fs.promises.unlink(filePath);
-        } catch (fileError) {
-            console.error(`Failed to delete physical file for year ${targetYear}:`, fileError);
-        }
-
-        // Permanently purge the metadata record
+        // The PDF lives on Cloudinary now, so there's no local file to
+        // clean up — just remove the metadata record.
         await collection.deleteOne({ year: targetYear });
 
         return NextResponse.json(

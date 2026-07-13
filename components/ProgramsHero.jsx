@@ -22,7 +22,6 @@ export default function ProgramsHero() {
         height: "65vh",
         maxHeight: "769px",
         overflow: "hidden",
-        marginTop: "69px",
         display: "flex",
         alignItems: "center",
         background: "#1D59C8",
@@ -33,7 +32,7 @@ export default function ProgramsHero() {
         style={{
           position: "absolute",
           inset: 0,
-          background: "url('/images/IMG_5056.png') center/cover no-repeat",
+          background: "url('/images/IMG_5056.png') center 20%/cover no-repeat",
           zIndex: 0,
         }}
       />
@@ -128,19 +127,26 @@ export default function ProgramsHero() {
         </h1>
       </div>
 
-      {/* White diagonal wave at bottom */}
+      {/* Curved white wave at the very bottom */}
       <div
         style={{
           position: "absolute",
           bottom: "-2px",
-          left: "-5%",
-          width: "110%",
-          height: "clamp(60px, 12vw, 160px)",
-          background: "#FFFFFF",
-          transform: "rotate(179.57deg)",
+          left: 0,
+          right: 0,
           zIndex: 3,
+          lineHeight: 0,
         }}
-      />
+      >
+        <svg
+          viewBox="0 0 1440 90"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+          style={{ display: "block", width: "100%", height: "70px" }}
+        >
+          <path d="M0,90 L0,90 Q720,90 1440,90 L1440,0 Q720,80 0,0 Z" fill="#ffffff" />
+        </svg>
+      </div>
     </section>
   );
 }

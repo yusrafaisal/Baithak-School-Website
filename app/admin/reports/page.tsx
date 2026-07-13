@@ -1,5 +1,6 @@
 "use client";
 
+import { uploadReport } from "@/lib/uploadReport";
 import { useState, useEffect, useCallback } from "react";
 
 interface Report {
@@ -61,72 +62,74 @@ export default function ManageReportsPage() {
         if (fileInput) fileInput.value = "";
     }
 
-    async function submitUpload(overwrite: boolean) {
-        if (!selectedFile) return;
+async function submitUpload(pdfUrl: string, fileName: string, overwrite: boolean) {
+    const res = await fetch("/api/admin/reports", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            year: selectedYear,
+            fileName,
+            pdfUrl,
+            overwrite,
+        }),
+    });
 
-        const formData = new FormData();
-        formData.append("year", String(selectedYear));
-        formData.append("file", selectedFile);
-        if (overwrite) {
-            formData.append("overwrite", "true");
-        }
+    return res;
+}
 
-        const res = await fetch("/api/admin/reports", {
-            method: "POST",
-            body: formData,
-        });
+async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setFormError(null);
 
-        return res;
+    if (!selectedFile) {
+        setFormError("Please select a PDF file to upload.");
+        return;
     }
 
-    async function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
-        setFormError(null);
-
-        if (!selectedFile) {
-            setFormError("Please select a PDF file to upload.");
-            return;
-        }
-
-        if (selectedFile.type !== "application/pdf") {
-            setFormError("Only PDF files are allowed.");
-            return;
-        }
-
-        setSubmitting(true);
-
-        try {
-            let res = await submitUpload(false);
-
-            if (res && res.status === 409) {
-                const confirmed = confirm(
-                    "A report for this year already exists. Do you want to replace it?"
-                );
-
-                if (!confirmed) {
-                    setSubmitting(false);
-                    return;
-                }
-
-                res = await submitUpload(true);
-            }
-
-            if (!res || !res.ok) {
-                const data = await res?.json().catch(() => ({}));
-                throw new Error(data?.error || "Failed to upload report");
-            }
-
-            resetForm();
-            await fetchReports();
-            setToast({ message: "Report saved successfully.", type: "success" });
-        } catch (err) {
-            const message = err instanceof Error ? err.message : "Failed to upload report.";
-            setFormError(message);
-            setToast({ message, type: "error" });
-        } finally {
-            setSubmitting(false);
-        }
+    if (selectedFile.type !== "application/pdf") {
+        setFormError("Only PDF files are allowed.");
+        return;
     }
+
+    setSubmitting(true);
+
+    try {
+        // Upload to Cloudinary once, then save the URL (retrying the save
+        // with overwrite=true doesn't need a second upload).
+        const pdfUrl = await uploadReport(selectedFile);
+        const fileName = selectedFile.name;
+
+        let res = await submitUpload(pdfUrl, fileName, false);
+
+        if (res && res.status === 409) {
+            const confirmed = confirm(
+                "A report for this year already exists. Do you want to replace it?"
+            );
+
+            if (!confirmed) {
+                setSubmitting(false);
+                return;
+            }
+
+            res = await submitUpload(pdfUrl, fileName, true);
+        }
+
+        if (!res || !res.ok) {
+            const data = await res?.json().catch(() => ({}));
+            throw new Error(data?.error || "Failed to upload report");
+        }
+
+        resetForm();
+        await fetchReports();
+        setToast({ message: "Report saved successfully.", type: "success" });
+    } catch (err) {
+        const message = err instanceof Error ? err.message : "Failed to upload report.";
+        setFormError(message);
+        setToast({ message, type: "error" });
+    } finally {
+        setSubmitting(false);
+    }
+}
 
     async function handleDelete(report: Report) {
         const confirmed = confirm(

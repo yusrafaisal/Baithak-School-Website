@@ -37,6 +37,17 @@ export default function OurStoryHero() {
         <span className="os-hero__label">Our Story</span>
       </div>
 
+      {/* Curved white wave at the very bottom */}
+      <div className="os-hero__wave">
+        <svg
+          viewBox="0 0 1440 90"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+        >
+          <path d="M0,90 L0,90 Q720,90 1440,90 L1440,0 Q720,80 0,0 Z" fill="#ffffff" />
+        </svg>
+      </div>
+
       <style>{`
         /* ─── Hero section ─────────────────────────────────
            Figma: hero image 1512×849px starting at top:58 (below navbar).
@@ -55,6 +66,23 @@ export default function OurStoryHero() {
           height: 100%;
           object-fit: cover;
           object-position: center 25%;
+        }
+
+        /* ─── Curved bottom wave ───────────────────────────
+           Matches the wave used on Stories & Voices hero.
+        */
+        .os-hero__wave {
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          right: 0;
+          z-index: 4;
+          line-height: 0;
+        }
+        .os-hero__wave svg {
+          display: block;
+          width: 100%;
+          height: 70px;
         }
 
         /* ─── Decorative rings ─────────────────────────────
