@@ -1,22 +1,55 @@
 "use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+const STORIES_CATEGORY = "Stories and Voices";
 const IMG = "/images/stories_and_voices_imgs";
 const LANDING_IMG = "/images/landing_page_imgs";
 
-const moreStories = [
-  { img: `${IMG}/mohib-story.jpg`, title: "From Fixing Bikes to Building Dreams", date: "2026-01-27", desc: "Mohib's Journey From Fixing Bikes to Building Dreams. Class 3, Baithak School Rana Town, Lahore. Every day, as the streets come alive..." },
-  { img: `${IMG}/hadia-story.jpg`, title: "The Icecream Stick Girl 'Hadia'", date: "2026-01-24", desc: "The Ice Cream Stick Girl 'Hadia Shahbaz', Class-4 Student, Baithak School Barket Town, Lahore. In a small, bustling neighborhood..." },
-  { img: `${IMG}/shoaib-story.jpg`, title: "Shoaib: Learning in Class, working at the dairy...", date: "2026-05-06", desc: "Shoaib: Learning in Class, Working at the Dairy — A Journey of Determination. At Baithak School Rana Town, students don't..." },
-  { img: `${IMG}/sufyan-story.png`, title: "A Carpenter's Son 'Sufyan Samiullah'", date: "2026-01-20", desc: "A Carpenter's Son Sufyan Samiullah, Class-4, Baithak School Swat. In the serene valleys of Swat, nine-year-old Sufyan is rewriting..." },
-  { img: `${IMG}/laiba-story.jpg`, title: "Laiba: Working as a Cleaner along side her m...", date: "2026-05-02", desc: "I work as a cleaner and sweeper alongside my mother, scrubbing floors and streets from dawn till dusk to keep things..." },
-  { img: `${IMG}/mohib-working.png`, title: "Mohib: Helping his father in his Mechanic shop afte..", date: "2026-05-02", desc: "I'm 14 years old, and every day after school, I help my father at his mechanic shop, fixing bikes and cars with greasy hands..." },
-];
+interface PublicStory {
+  id: number;
+  category: string;
+  img: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  content?: string;
+  href?: string;
+}
 
 export default function StoriesAndVoicesPage() {
+  const [stories, setStories] = useState<PublicStory[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchStories() {
+      try {
+        setLoading(true);
+        setLoadError(null);
+
+        const res = await fetch(`/api/news-stories?category=${encodeURIComponent(STORIES_CATEGORY)}&limit=12`);
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch stories");
+        }
+
+        const data = await res.json();
+        setStories(Array.isArray(data) ? data : []);
+      } catch {
+        setLoadError("Unable to load stories right now. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchStories();
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -121,13 +154,13 @@ export default function StoriesAndVoicesPage() {
               </div>
               <div style={{ flex: 1, minWidth: "280px" }}>
                 <p style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 500, fontSize: "clamp(15px, 1.4vw, 18px)", lineHeight: "1.7", color: "#000", marginBottom: "18px" }}>
-                  Every day, as the bustling streets of Rana Town, Pakistan come alive, 9 year old Mohib ur Rehman juggles two worlds: the classroom and the motorcycle repair shop. By morning, he's a dedicated Class 3 student at Baithak School Network, eager to learn and grow. By afternoon, he's at his father's side, fixing bikes and contributing to his family's livelihood.
+                  Every day, as the bustling streets of Rana Town, Pakistan come alive, 9 year old Mohib ur Rehman juggles two worlds: the classroom and the motorcycle repair shop. By morning, he&apos;s a dedicated Class 3 student at Baithak School Network, eager to learn and grow. By afternoon, he&apos;s at his father&apos;s side, fixing bikes and contributing to his family&apos;s livelihood.
                 </p>
                 <p style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 500, fontSize: "clamp(15px, 1.4vw, 18px)", lineHeight: "1.7", color: "#000", marginBottom: "24px" }}>
                   As the eldest of five siblings, Mohib carries the responsibility of being a role model. Two of his younger siblings also study at Baithak School, where education is both affordable and of high quality.
                 </p>
                 <p style={{ fontFamily: "'Poppins', sans-serif", fontStyle: "italic", fontWeight: 700, fontSize: "clamp(15px, 1.4vw, 18px)", lineHeight: "1.7", color: "#000" }}>
-                  "Baithak has been a blessing for our family," his father says. "We trust the school to provide the education and values that will shape our children's futures."
+                  &quot;Baithak has been a blessing for our family,&quot; his father says. &quot;We trust the school to provide the education and values that will shape our children&apos;s futures.&quot;
                 </p>
               </div>
             </div>
@@ -142,21 +175,41 @@ export default function StoriesAndVoicesPage() {
               More <span style={{ fontWeight: 400 }}>Stories</span>
             </h2>
             <div className="bridge-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "32px" }}>
-              {moreStories.map((s) => (
-                <div key={s.title} style={{ backgroundColor: "#fff", boxShadow: "0px 4px 12px rgba(161,161,161,0.25)", borderRadius: "24px", overflow: "hidden" }}>
-                  <div style={{ position: "relative", width: "100%", height: "190px" }}>
-                    <Image src={s.img} alt={s.title} fill sizes="(max-width: 1200px) 33vw, 380px" style={{ objectFit: "cover" }} />
+              {loading ? (
+                Array.from({ length: 6 }).map((_, index) => (
+                  <div key={index} style={{ backgroundColor: "#fff", boxShadow: "0px 4px 12px rgba(161,161,161,0.25)", borderRadius: "24px", overflow: "hidden" }}>
+                    <div style={{ position: "relative", width: "100%", height: "190px", background: "linear-gradient(180deg, #F4F7FC 0%, #E8EEF7 100%)" }} />
+                    <div style={{ padding: "20px 22px 24px" }}>
+                      <div style={{ height: "20px", width: "80%", background: "#E8EEF7", borderRadius: "8px", marginBottom: "8px" }} />
+                      <div style={{ height: "12px", width: "35%", background: "#E8EEF7", borderRadius: "8px", marginBottom: "10px" }} />
+                      <div style={{ height: "42px", width: "100%", background: "#E8EEF7", borderRadius: "8px", marginBottom: "16px" }} />
+                      <div style={{ height: "44px", width: "100%", backgroundColor: "#E5EEFF", borderRadius: "12px" }} />
+                    </div>
                   </div>
-                  <div style={{ padding: "20px 22px 24px" }}>
-                    <h3 style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 500, fontSize: "20px", color: "#000", marginBottom: "8px", lineHeight: "1.3" }}>{s.title}</h3>
-                    <p style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400, fontSize: "12px", color: "#333", marginBottom: "10px" }}>🕐 {s.date}</p>
-                    <p style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400, fontSize: "14px", color: "#000", lineHeight: "1.5", marginBottom: "16px" }}>{s.desc}</p>
-                    <Link href="/blogs-stories" className="more-stories-btn" style={{ display: "block", textAlign: "center", width: "100%", backgroundColor: "#E5EEFF", color: "#1E1E1E", fontSize: "15px", padding: "12px", borderRadius: "12px", border: "none", cursor: "pointer", textDecoration: "none", transition: "background-color 0.2s, color 0.2s" }}>
-                      See More
-                    </Link>
+                ))
+              ) : loadError ? (
+                <p style={{ fontFamily: "'Poppins', sans-serif", textAlign: "center", color: "#D0342C", gridColumn: "1 / -1" }}>{loadError}</p>
+              ) : stories.length > 0 ? (
+                stories.map((story) => (
+                  <div key={story.id} style={{ backgroundColor: "#fff", boxShadow: "0px 4px 12px rgba(161,161,161,0.25)", borderRadius: "24px", overflow: "hidden" }}>
+                    <div style={{ position: "relative", width: "100%", height: "190px" }}>
+                      <Image src={story.img || `${IMG}/mohib-story.jpg`} alt={story.title} fill sizes="(max-width: 1200px) 33vw, 380px" style={{ objectFit: "cover" }} />
+                    </div>
+                    <div style={{ padding: "20px 22px 24px" }}>
+                      <h3 style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 500, fontSize: "20px", color: "#000", marginBottom: "8px", lineHeight: "1.3" }}>{story.title}</h3>
+                      <p style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400, fontSize: "12px", color: "#333", marginBottom: "10px" }}>🕐 {story.date}</p>
+                      <p style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400, fontSize: "14px", color: "#000", lineHeight: "1.5", marginBottom: "16px" }}>{story.excerpt}</p>
+                      <Link href={story.href || "/blogs-stories"} className="more-stories-btn" style={{ display: "block", textAlign: "center", width: "100%", backgroundColor: "#E5EEFF", color: "#1E1E1E", fontSize: "15px", padding: "12px", borderRadius: "12px", border: "none", cursor: "pointer", textDecoration: "none", transition: "background-color 0.2s, color 0.2s" }}>
+                        See More
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p style={{ fontFamily: "'Poppins', sans-serif", textAlign: "center", color: "#555", gridColumn: "1 / -1" }}>
+                  Add published Stories and Voices entries in the admin portal to populate this section.
+                </p>
+              )}
             </div>
           </div>
         </section>
@@ -201,7 +254,7 @@ export default function StoriesAndVoicesPage() {
                 Your support <br />drives <span style={{ fontWeight: 400 }}>real change</span>
               </h2>
               <p style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 500, fontSize: "clamp(16px, 1.6vw, 26px)", color: "#282727", lineHeight: "40px", marginBottom: "40px" }}>
-                Baithak School brings quality education to Pakistan's most underserved communities — one neighbourhood at a time.
+                Baithak School brings quality education to Pakistan&apos;s most underserved communities — one neighbourhood at a time.
               </p>
               <Link href="/your-support" className="impact-btn" style={{ display: "inline-block", backgroundColor: "#FFEDBA", color: "#000", fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: "clamp(16px, 1.6vw, 27px)", padding: "16px 32px", borderRadius: "15px", textDecoration: "none", transition: "background-color 0.2s" }}>
                 See your Impact Now
@@ -265,7 +318,6 @@ export default function StoriesAndVoicesPage() {
             .hero-title-wrap .smk-word { height: clamp(45px, 13vw, 110px) !important; }
           }
         `}</style>
-
 
       </main>
       <Footer />

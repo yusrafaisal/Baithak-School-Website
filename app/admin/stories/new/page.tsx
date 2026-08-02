@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import ImageUploadField from "@/components/admin/ImageUploadField";
 import ContentBlocksEditor, { ContentBlock } from "@/components/admin/ContentBlocksEditor";
 
-const CATEGORIES = ["Blogs", "Events", "Success Stories", "Baithak in Media", "Videos"];
+const CATEGORIES = ["Blogs", "Events", "Success Stories", "Baithak in Media", "Stories and Voices", "Videos"];
 
 export default function NewStoryPage() {
     const router = useRouter();
@@ -66,7 +66,7 @@ export default function NewStoryPage() {
 
             const data = await res.json().catch(() => ({}));
             setSubmitError(data.error || "Failed to create story. Please try again.");
-        } catch (err) {
+        } catch {
             setSubmitError("Failed to create story. Please try again.");
         } finally {
             setSubmitting(false);
